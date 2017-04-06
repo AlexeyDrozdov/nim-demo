@@ -1,69 +1,68 @@
 export default class Nim extends Phaser.State {
-    const ROW_COUNT = 3;
-    const MAX_COINS_IN_ROW_COUNT = 5;
-    const HAND_X = 400;
-    const HAND_Y = 250;
-    const COIN_X = 100;
-    const COIN_Y = 100;
-    const COIN_OFFSET = 50;
-    let coins = [];
-    let digitCoins = [];
-    let currentLine = 0;
-    let counter = 0;
-    let hand;
 
     create() {
-        hand = this.add.sprite(HAND_X, HAND_Y, 'hand');
-        hand.inputEnabled = true;
-        hand.events.onInputDown.add(handListener, this);
+        this.ROW_COUNT = 3;
+        this.MAX_COINS_IN_ROW_COUNT = 5;
+        this.HAND_X = 400;
+        this.HAND_Y = 250;
+        this.COIN_X = 100;
+        this.COIN_Y = 100;
+        this.COIN_OFFSET = 50;
+        this.coins = [];
+        this.digitCoins = [];
+        this.currentLine = 0;
+        this.counter = 0;
+        this.hand = this.add.sprite(this.HAND_X, this.HAND_Y, 'hand');
+        this.hand.inputEnabled = true;
+        this.hand.events.onInputDown.add(this.handListener, this);
         
-        for (let i = ROW_COUNT - 1; i > -1; i--){
-            digitCoins[i] = [];
-            coins[i] = [];
+        for (let i = this.ROW_COUNT - 1; i > -1; i--){
+            this.digitCoins[i] = [];
+            this.coins[i] = [];
             
-            for (let j = 0; j < MAX_COINS_IN_ROW_COUNT - i; j++) {
-                digitCoins[i][j] = 1;
-                coins[i][j] = game.add.sprite(COIN_X + COIN_OFFSET * j, COIN_Y + COIN_OFFSET * (ROW_COUNT - i), 'coin');
-                coins[i][j].inputEnabled = true;
-                coins[i][j].events.onInputDown.add(coinsListener, this);
+            for (let j = 0; j < this.MAX_COINS_IN_ROW_COUNT - i; j++) {
+                this.digitCoins[i][j] = 1;
+                this.coins[i][j] = game.add.sprite(this.COIN_X + this.COIN_OFFSET * j, this.COIN_Y + this.COIN_OFFSET * (this.ROW_COUNT - i), 'coin');
+                this.coins[i][j].inputEnabled = true;
+                this.coins[i][j].events.onInputDown.add(this.coinsListener, this);
             }
         }
     }
 
     coinsListener(...args) {
-        if (currentLine === 0 || currentLine === args[0].position.y) {
-            currentLine = args[0].position.y;
-            hand.loadTexture('hand-active', 0);
+        if (this.currentLine === 0 || this.currentLine === args[0].position.y) {
+            this.currentLine = args[0].position.y;
+            this.hand.loadTexture('hand-active', 0);
             
             if (args[0].key === 'coin') {
                 args[0].loadTexture('coin-selected', 0);
-                counter++;
+                this.counter++;
             } else {
                 args[0].loadTexture('coin', 0);  
-                counter--;
+                this.counter--;
             }    
             
-            if (counter === 0) {
-                currentLine = 0;
-                hand.loadTexture('hand', 0);
+            if (this.counter === 0) {
+                this.currentLine = 0;
+                this.hand.loadTexture('hand', 0);
             }     
         }
     }
 
 
     handListener() {
-        if (hand.key === 'hand-active') {
-            let line = ROW_COUNT - (currentLine - COIN_Y) / COIN_OFFSET;
+        if (this.hand.key === 'hand-active') {
+            let line = this.ROW_COUNT - (this.currentLine - this.COIN_Y) / this.COIN_OFFSET;
             
-            coins[line].map((x, index) => {
+            this.coins[line].map((x, index) => {
                 if (x.key === 'coin-selected'){
                     x.destroy();
-                    digitCoins[line][index] = 0;
+                    this.digitCoins[line][index] = 0;
                 }
             })
 
-            currentLine = 0;
-            hand.loadTexture('hand', 0);
+            this.currentLine = 0;
+            this.hand.loadTexture('hand', 0);
         }   
     }
 }
