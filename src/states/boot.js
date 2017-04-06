@@ -1,13 +1,13 @@
-export default class BootState extends Phaser.State {
-  init () {
-    
-  }
+export default class Boot extends Phaser.State {
+    init() {
 
-  preload () {
-    
-  }
+    }
 
-  create () {
-    
-  }
+    preload() {
+
+    }
+
+    create() {
+        this.state.start('Preload');
+    }
 }
