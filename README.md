@@ -1,10 +1,10 @@
-# Game
+# Nimomania
 
 ## Technologies used
 
+- Phaser – HTML5 Game Framework
 - HTML5, CSS3
 - JavaScript
-- Phaser – HTML5 Game Framework
 
 ## Prerequisites
 
@@ -45,4 +45,3 @@ Also this will start a watch process, so you can change the source and the proce
     $ npm run deploy
 
 This will optimize and minimize the compiled bundle.
-# nim-demo
